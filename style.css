@@ -263,6 +263,15 @@ body.dark .secondary-btn {
     background-position: 0% 50%;
   }
 }
+.sortable-ghost {
+  opacity: 0.4;
+  transform: scale(0.98);
+}
+
+.sortable-chosen {
+  box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+  transform: scale(1.03);
+}
 
 
 
