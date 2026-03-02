@@ -174,14 +174,13 @@ button {
 
 .file-card {
   background: var(--card);
-  backdrop-filter: var(--blur);
-  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--border);
   padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px var(--shadow);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px var(--shadow);
   cursor: grab;
-  transition: all 0.4s ease;
-  touch-action: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  touch-action: pan-y;   /* ✅ allows vertical scrolling + smooth drag */
 
 }
 
@@ -264,5 +263,6 @@ body.dark .secondary-btn {
     background-position: 0% 50%;
   }
 }
+
 
 
