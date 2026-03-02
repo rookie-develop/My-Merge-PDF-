@@ -265,16 +265,25 @@ body.dark .secondary-btn {
 }
 /* ✅ Clean Android-safe drag effect */
 
+/* Drag picked element */
 .drag-active {
   transform: scale(1.03);
   box-shadow: 0 18px 40px rgba(0,0,0,0.25);
   z-index: 1000;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Drag clone while moving */
 .dragging-item {
-  opacity: 1 !important;
+  opacity: 0.95 !important;
   transform: scale(1.05);
   box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+}
+
+/* Smooth animation for other items */
+.file-card {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.25s ease;
 }
 
 
