@@ -181,7 +181,7 @@ button {
   box-shadow: 0 10px 30px var(--shadow);
   cursor: grab;
   transition: all 0.4s ease;
-  touch-action: manipulation;
+  touch-action: none;
 
 }
 
@@ -264,4 +264,5 @@ body.dark .secondary-btn {
     background-position: 0% 50%;
   }
 }
+
 
