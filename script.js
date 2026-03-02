@@ -100,9 +100,12 @@ new Sortable(fileGrid, {
   delayOnTouchOnly: true,
   touchStartThreshold: 4,
 
-  ghostClass: "drag-ghost",     // ✅ custom ghost
-  chosenClass: "drag-chosen",   // ✅ picked element
-  dragClass: "drag-dragging",   // ✅ while dragging
+  forceFallback: true,        // ✅ IMPORTANT FIX
+  fallbackClass: "drag-fallback",
+  fallbackOnBody: true,
+  fallbackTolerance: 3,
+
+  chosenClass: "drag-chosen",
 
   swapThreshold: 0.7,
 
@@ -114,7 +117,6 @@ new Sortable(fileGrid, {
     renderFiles();
   }
 });
-
 // Merge PDFs
 mergeBtn.onclick = async () => {
   if (files.length < 2) {
@@ -142,6 +144,7 @@ function download(data, name) {
   link.download = name;
   link.click();
 }
+
 
 
 
