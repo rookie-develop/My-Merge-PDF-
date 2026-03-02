@@ -64,7 +64,6 @@ text
 
 const card = document.createElement("div");
 card.className = "file-card";
-card.setAttribute("draggable", "false");  // ✅ VERY IMPORTANT
 card.dataset.index = index;
 
 card.innerHTML = `
@@ -94,33 +93,32 @@ renderFiles();
 };
 
 // ✅ SortableJS for drag reorder (Mobile + PC)
-new Sortable(fileGrid, {
-animation: 220,
-easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-draggable: ".file-card",
+const sortable = Sortable.create(fileGrid, {
+  animation: 250,
+  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+  draggable: ".file-card",
 
-delay: 70,
-delayOnTouchOnly: true,
-touchStartThreshold: 4,
+  delay: 80,
+  delayOnTouchOnly: true,
+  touchStartThreshold: 4,
 
-forceFallback: true,
-fallbackOnBody: true,
-fallbackTolerance: 3,
-fallbackClass: "dragging-item",
+  forceFallback: true,
+  fallbackTolerance: 3,
+  fallbackClass: "dragging-item",
 
-chosenClass: "drag-active",
+  chosenClass: "drag-active",
 
-swapThreshold: 0.65,
+  swapThreshold: 0.7,
 
-onEnd: function (evt) {
-if (evt.oldIndex === evt.newIndex) return;
+  onEnd: function (evt) {
+    const from = evt.oldIndex;
+    const to = evt.newIndex;
+    if (from === to) return;
 
-text
-
-const movedItem = files.splice(evt.oldIndex, 1)[0];
-files.splice(evt.newIndex, 0, movedItem);
-renderFiles();
-}
+    const [moved] = files.splice(from, 1);
+    files.splice(to, 0, moved);
+    renderFiles();
+  }
 });
 // Merge PDFs
 mergeBtn.onclick = async () => {
@@ -149,3 +147,4 @@ link.href = URL.createObjectURL(blob);
 link.download = name;
 link.click();
 }
+
