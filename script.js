@@ -62,7 +62,6 @@ function renderFiles() {
 
     const card = document.createElement("div");
     card.className = "file-card";
-    card.setAttribute("draggable", "false");  // ✅ VERY IMPORTANT
     card.dataset.index = index;
 
     card.innerHTML = `
@@ -92,30 +91,16 @@ clearBtn.onclick = () => {
 };
 
 // ✅ SortableJS for drag reorder (Mobile + PC)
-new Sortable(fileGrid, {
-  animation: 220,
-  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-  draggable: ".file-card",
+const sortable = Sortable.create(fileGrid, {
+  animation: 150,
+  onEnd: (evt) => {
+    const from = evt.oldIndex;
+    const to = evt.newIndex;
+    if (from === to) return;
 
-  delay: 60,
-  delayOnTouchOnly: true,
-  touchStartThreshold: 4,
-
-  forceFallback: true,
-  fallbackTolerance: 3,
-  fallbackClass: "dragging-item",
-
-  chosenClass: "drag-active",
-
-  swapThreshold: 0.65,
-
-  onEnd: function (evt) {
-    if (evt.oldIndex === evt.newIndex) return;
-
-    const movedItem = files.splice(evt.oldIndex, 1)[0];
-    files.splice(evt.newIndex, 0, movedItem);
-    renderFiles();
-  }
+    const [moved] = files.splice(from, 1);
+    files.splice(to, 0, moved);
+  },
 });
 // Merge PDFs
 mergeBtn.onclick = async () => {
@@ -144,6 +129,7 @@ function download(data, name) {
   link.download = name;
   link.click();
 }
+
 
 
 
