@@ -92,13 +92,17 @@ clearBtn.onclick = () => {
 
 // ✅ SortableJS for drag reorder (Mobile + PC)
 new Sortable(fileGrid, {
-  animation: 200,
-  ghostClass: "sortable-ghost",
-  delay: 150,                // ✅ Long press delay for mobile
-  delayOnTouchOnly: true,    // ✅ Only delay on touch devices
-  touchStartThreshold: 5,
-  fallbackOnBody: true,
-  swapThreshold: 0.65,
+  animation: 250,
+  easing: "cubic-bezier(0.22, 1, 0.36, 1)",  // ✅ smooth natural easing
+  draggable: ".file-card",
+
+  delay: 80,                  // ✅ small delay (feels natural)
+  delayOnTouchOnly: true,     // ✅ only for phones
+  touchStartThreshold: 4,
+
+  forceFallback: false,       // ✅ IMPORTANT (prevents stiff behavior)
+  fallbackTolerance: 3,
+  swapThreshold: 0.7,
 
   onEnd: function (evt) {
     if (evt.oldIndex === evt.newIndex) return;
@@ -136,4 +140,5 @@ function download(data, name) {
   link.download = name;
   link.click();
 }
+
 
