@@ -76,8 +76,8 @@ card.innerHTML = `
 fileGrid.appendChild(card);
 });
 
-fileCount.textContent = ${files.length} files;
-totalSize.textContent = ${(total / 1024 / 1024).toFixed(2)} MB;
+fileCount.textContent = `${files.length} files`;
+totalSize.textContent = `${(total / 1024 / 1024).toFixed(2)} MB`;
 }
 
 // Remove file
@@ -147,4 +147,5 @@ link.href = URL.createObjectURL(blob);
 link.download = name;
 link.click();
 }
+
 
