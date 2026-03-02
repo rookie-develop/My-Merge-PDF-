@@ -62,6 +62,7 @@ function renderFiles() {
 
     const card = document.createElement("div");
     card.className = "file-card";
+    card.setAttribute("draggable", "false");  // ✅ VERY IMPORTANT
     card.dataset.index = index;
 
     card.innerHTML = `
@@ -92,22 +93,22 @@ clearBtn.onclick = () => {
 
 // ✅ SortableJS for drag reorder (Mobile + PC)
 new Sortable(fileGrid, {
-  animation: 250,
+  animation: 220,
   easing: "cubic-bezier(0.22, 1, 0.36, 1)",
   draggable: ".file-card",
 
-  delay: 80,
+  delay: 70,
   delayOnTouchOnly: true,
   touchStartThreshold: 4,
 
-  forceFallback: true,        // ✅ IMPORTANT FIX
-  fallbackClass: "drag-fallback",
+  forceFallback: true,
   fallbackOnBody: true,
   fallbackTolerance: 3,
+  fallbackClass: "dragging-item",
 
-  chosenClass: "drag-chosen",
+  chosenClass: "drag-active",
 
-  swapThreshold: 0.7,
+  swapThreshold: 0.65,
 
   onEnd: function (evt) {
     if (evt.oldIndex === evt.newIndex) return;
@@ -144,6 +145,7 @@ function download(data, name) {
   link.download = name;
   link.click();
 }
+
 
 
 
