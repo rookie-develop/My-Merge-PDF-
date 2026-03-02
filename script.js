@@ -17,20 +17,20 @@ const themeToggle = document.getElementById("themeToggle");
 
 // Load saved theme
 if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark");
-  themeToggle.textContent = "☀️";
+document.body.classList.add("dark");
+themeToggle.textContent = "☀️";
 }
 
 themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
+document.body.classList.toggle("dark");
 
-  if (document.body.classList.contains("dark")) {
-    themeToggle.textContent = "☀️";
-    localStorage.setItem("theme", "dark");
-  } else {
-    themeToggle.textContent = "🌙";
-    localStorage.setItem("theme", "light");
-  }
+if (document.body.classList.contains("dark")) {
+themeToggle.textContent = "☀️";
+localStorage.setItem("theme", "dark");
+} else {
+themeToggle.textContent = "🌙";
+localStorage.setItem("theme", "light");
+}
 });
 // Open file selector
 selectBtn.onclick = () => pdfInput.click();
@@ -39,100 +39,113 @@ pdfInput.onchange = (e) => addFiles(e.target.files);
 // Drag upload
 dropArea.ondragover = (e) => e.preventDefault();
 dropArea.ondrop = (e) => {
-  e.preventDefault();
-  addFiles(e.dataTransfer.files);
+e.preventDefault();
+addFiles(e.dataTransfer.files);
 };
 
 function addFiles(selectedFiles) {
-  for (let file of selectedFiles) {
-    if (file.type === "application/pdf") {
-      files.push(file);
-    }
-  }
-  renderFiles();
+for (let file of selectedFiles) {
+if (file.type === "application/pdf") {
+files.push(file);
+}
+}
+renderFiles();
 }
 
 function renderFiles() {
-  fileGrid.innerHTML = "";
+fileGrid.innerHTML = "";
 
-  let total = 0;
+let total = 0;
 
-  files.forEach((file, index) => {
-    total += file.size;
+files.forEach((file, index) => {
+total += file.size;
 
-    const card = document.createElement("div");
-    card.className = "file-card";
-    card.dataset.index = index;
+text
 
-    card.innerHTML = `
-      <div class="file-icon">📕</div>
-      <div class="file-name">${file.name}</div>
-      <div class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
-      <button class="remove-btn" onclick="removeFile(${index})">Remove</button>
-    `;
+const card = document.createElement("div");
+card.className = "file-card";
+card.setAttribute("draggable", "false");  // ✅ VERY IMPORTANT
+card.dataset.index = index;
 
-    fileGrid.appendChild(card);
-  });
+card.innerHTML = `
+  <div class="file-icon">📕</div>
+  <div class="file-name">${file.name}</div>
+  <div class="file-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+  <button class="remove-btn" onclick="removeFile(${index})">Remove</button>
+`;
 
-  fileCount.textContent = `${files.length} files`;
-  totalSize.textContent = `${(total / 1024 / 1024).toFixed(2)} MB`;
+fileGrid.appendChild(card);
+});
+
+fileCount.textContent = ${files.length} files;
+totalSize.textContent = ${(total / 1024 / 1024).toFixed(2)} MB;
 }
 
 // Remove file
 function removeFile(index) {
-  files.splice(index, 1);
-  renderFiles();
+files.splice(index, 1);
+renderFiles();
 }
 
 // Clear all
 clearBtn.onclick = () => {
-  files = [];
-  renderFiles();
+files = [];
+renderFiles();
 };
 
 // ✅ SortableJS for drag reorder (Mobile + PC)
-const sortable = Sortable.create(fileGrid, {
-  animation: 150,
-  onEnd: (evt) => {
-    const from = evt.oldIndex;
-    const to = evt.newIndex;
-    if (from === to) return;
+new Sortable(fileGrid, {
+animation: 220,
+easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+draggable: ".file-card",
 
-    const [moved] = files.splice(from, 1);
-    files.splice(to, 0, moved);
-  },
+delay: 70,
+delayOnTouchOnly: true,
+touchStartThreshold: 4,
+
+forceFallback: true,
+fallbackOnBody: true,
+fallbackTolerance: 3,
+fallbackClass: "dragging-item",
+
+chosenClass: "drag-active",
+
+swapThreshold: 0.65,
+
+onEnd: function (evt) {
+if (evt.oldIndex === evt.newIndex) return;
+
+text
+
+const movedItem = files.splice(evt.oldIndex, 1)[0];
+files.splice(evt.newIndex, 0, movedItem);
+renderFiles();
+}
 });
 // Merge PDFs
 mergeBtn.onclick = async () => {
-  if (files.length < 2) {
-    alert("Please select at least 2 PDFs.");
-    return;
-  }
+if (files.length < 2) {
+alert("Please select at least 2 PDFs.");
+return;
+}
 
-  const mergedPdf = await PDFDocument.create();
+const mergedPdf = await PDFDocument.create();
 
-  for (let file of files) {
-    const buffer = await file.arrayBuffer();
-    const pdf = await PDFDocument.load(buffer);
-    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-    pages.forEach((page) => mergedPdf.addPage(page));
-  }
+for (let file of files) {
+const buffer = await file.arrayBuffer();
+const pdf = await PDFDocument.load(buffer);
+const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+pages.forEach((page) => mergedPdf.addPage(page));
+}
 
-  const mergedBytes = await mergedPdf.save();
-  download(mergedBytes, "merged.pdf");
+const mergedBytes = await mergedPdf.save();
+download(mergedBytes, "merged.pdf");
 };
 
 function download(data, name) {
-  const blob = new Blob([data], { type: "application/pdf" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = name;
-  link.click();
+const blob = new Blob([data], { type: "application/pdf" });
+const link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = name;
+link.click();
 }
-
-
-
-
-
-
-
