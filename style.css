@@ -263,15 +263,29 @@ body.dark .secondary-btn {
     background-position: 0% 50%;
   }
 }
-.sortable-ghost {
-  opacity: 0.4;
-  transform: scale(0.98);
+/* ✅ Element being picked up */
+.drag-chosen {
+  transform: scale(1.04);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+  z-index: 10;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.sortable-chosen {
-  box-shadow: 0 16px 40px rgba(0,0,0,0.2);
-  transform: scale(1.03);
+/* ✅ Element floating while dragging */
+.drag-dragging {
+  opacity: 1 !important;
+  transform: scale(1.05) rotate(1deg);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.3);
 }
+
+/* ✅ Placeholder effect (where item will drop) */
+.drag-ghost {
+  opacity: 0.15 !important;
+  background: transparent !important;
+  border: 2px dashed var(--border);
+  box-shadow: none !important;
+}
+
 
 
 
