@@ -92,13 +92,21 @@ clearBtn.onclick = () => {
 
 // ✅ SortableJS for drag reorder (Mobile + PC)
 new Sortable(fileGrid, {
-  animation: 150,
+  animation: 200,
   ghostClass: "sortable-ghost",
+  delay: 150,                // ✅ Long press delay for mobile
+  delayOnTouchOnly: true,    // ✅ Only delay on touch devices
+  touchStartThreshold: 5,
+  fallbackOnBody: true,
+  swapThreshold: 0.65,
+
   onEnd: function (evt) {
+    if (evt.oldIndex === evt.newIndex) return;
+
     const movedItem = files.splice(evt.oldIndex, 1)[0];
     files.splice(evt.newIndex, 0, movedItem);
     renderFiles();
-  },
+  }
 });
 
 // Merge PDFs
@@ -128,3 +136,4 @@ function download(data, name) {
   link.download = name;
   link.click();
 }
+
