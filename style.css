@@ -284,7 +284,9 @@ body.dark .secondary-btn {
   background: transparent !important;
   border: 2px dashed var(--border);
   box-shadow: none !important;
+  opacity: 0.08 !important;
 }
+
 
 
 
