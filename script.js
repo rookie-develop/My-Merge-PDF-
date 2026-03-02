@@ -97,12 +97,11 @@ new Sortable(fileGrid, {
   easing: "cubic-bezier(0.22, 1, 0.36, 1)",
   draggable: ".file-card",
 
-  delay: 70,
+  delay: 60,
   delayOnTouchOnly: true,
   touchStartThreshold: 4,
 
   forceFallback: true,
-  fallbackOnBody: true,
   fallbackTolerance: 3,
   fallbackClass: "dragging-item",
 
@@ -145,6 +144,7 @@ function download(data, name) {
   link.download = name;
   link.click();
 }
+
 
 
 
